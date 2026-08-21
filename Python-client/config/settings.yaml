@@ -1,0 +1,152 @@
+application:
+  name: "AMADEUS MK-I Client"
+  version: "0.1.0"
+  environment: "development"
+  debug: true
+  loop_interval_seconds: 0.1
+
+logging:
+  level: "INFO"
+
+communication:
+  serial:
+    enabled: true
+    port: null
+    baudrate: 9600
+    timeout_seconds: 1.0
+    reconnection_attempts: 5
+    reconnect_interval_seconds: 5.0
+
+ai:
+  vlm:
+    server_url: ""
+    username: ""
+    password: ""
+    model_name:
+    timeout: 30.0
+  tts:
+    server_url: ""
+    username: ""
+    password: ""
+  stt:
+    server_url: ""
+    username: ""
+    password: ""
+
+  agents:
+    confidence_threshold: 0.7
+    max_retries: 3
+
+vision:
+
+  live_detection_window: true
+
+  camera:
+    device_index: 0
+    frame_width: 640
+    frame_height: 480
+    fps: 30
+
+  detector:
+    confidence_threshold: 0.5
+    iou_threshold: 0.45
+    target_labels:
+      - "cell phone"
+
+  segmentation:
+    enabled: true
+    checkpoint_path: "models/mobile_sam/mobile_sam.pt"
+    device: "cpu"
+    bbox_expansion_factor: 0.15
+
+  model:
+    path: "models/yolo/yolo26n.pt"
+
+  calibration:
+    file_path: "vision/calibration_data.yaml"
+    transform_path: "vision/workspace_transform.yaml"
+
+  tool:
+    offset_x_mm: 85.0
+    offset_y_mm: 0.0
+    offset_z_mm: 0.0
+
+motion:
+  workspace:
+
+    enabled: true
+
+    global:
+      x_min: -160.0
+      x_max: 160.0
+      y_min: -160.0
+      y_max: 160.0
+      z_min: 18.0
+      z_max: 100.0
+
+    pickup_zone:
+      enabled: true
+
+      activation_height_mm: 20.0
+      tolerance_mm: 5.0
+
+      min_radius_mm: 102.0
+      max_radius_mm: 120.0
+
+  joints:
+    max_speed_deg_per_sec: 22.0
+    min_speed_deg_per_sec: 22.0
+    max_acceleration_deg_per_sec2: 180.0
+
+  planner:
+    home_position:
+      x: 60
+      y: 0
+      z: 90
+    step_size_mm: 20.0
+    dispatch_cooldown_seconds: 3.0
+
+  kinematics:
+    upper_arm_length_mm: 80.0
+    forearm_length_mm: 80.0
+    base_height_mm: 90.0
+    base_ref_deg: 0
+    base_ref_pwd: 20.0
+    shoulder_ref_deg: -28
+    shoulder_ref_pwd: 50.0
+    elbow_ref_deg: 28
+    elbow_ref_pwd: 40.0
+    shoulder_gain: 1.0
+    elbow_gain: 1.0
+    max_reach_mm: 170.0
+    min_reach_mm: 55.0
+    base_inverted: True
+    shoulder_inverted: False
+    elbow_inverted: True
+    base_servo_min_angle: 0
+    base_servo_max_angle: 180
+    shoulder_servo_min_angle: 0
+    shoulder_servo_max_angle: 180
+    elbow_servo_min_angle: 0
+    elbow_servo_max_angle: 180
+
+  command_frequency_hz: 30.0
+  interpolation_steps: 10
+
+tasks:
+  pick_and_place:
+    pickup_height_mm: 18.0
+    safe_height_mm: 90.0
+    drop_height_mm: 45.0
+    drop_zone:
+      x: 115
+      y: 20
+      z: 45
+
+state_machine:
+  initial_state: "INIT"
+  cycle_interval_seconds: 1.0
+
+safety:
+  emergency_stop_enabled: true
+  collision_detection_enabled: true
